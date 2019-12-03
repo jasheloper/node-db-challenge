@@ -1,26 +1,59 @@
+const express = require("express");
 
-const express = require('express');
+const Project = require("../data/db-config.js");
 
-const db = require('../data/db-config.js');
+const router = express.Router();
 
-const router = express.Router(); 
+// ** A D D ** P R O J E C T S
+router.post("/", (req, res) => {
+  const projectData = req.body;
 
-// add projects
-router.post('/', (req, res) => {
-  res.status(200).send('hello from the POST /users endpoint');
+  Project.addProject(projectData)
+    .then(newProject => {
+      res.status(201).json(newProject);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message:
+          "An error occurred while trying to add the project to the database",
+        error: err
+      });
+    });
 });
 
-// retrieve projects
+// ** R E T R I E V E  ** P R O J E C T S
 
-router.get('/', (req, res) => {
-  res.status(200).send('hello from the GET /users endpoint');
+router.get("/", (req, res) => {
+  Project.getProjects()
+    .then(projects => {
+      res.json(projects);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message:
+          "An error occured while trying to get the projects from the database.",
+        error: err
+      });
+    });
 });
 
-router.get('/:id', (req, res) => {
-  res.status(200).send('hello from the GET /users/:id endpoint');
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+
+  Projects.getProjectById(id).then(project => {
+    if (project) {
+      res.json(project);
+    } else {
+      res
+        .status(404)
+        .json({
+          message: "Could not find project with given id"
+        })
+        .catch(err => {
+          res.status(500).json({ message: "Failed to get projects" });
+        });
+    }
+  });
 });
 
-
-
-
-module.exports = router; 
+module.exports = router;
