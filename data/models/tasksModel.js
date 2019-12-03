@@ -7,11 +7,11 @@ module.exports = {
 }
 
 function getTasks() {
-   return db('task')
+   return db('tasks')
 }
 function getTaskById(id) {
-   return db("task").where({ id })
+   return db("tasks").where({ id })
 }
 function addTask(task) {
-   return db("task").insert(task)
+   return db("tasks").insert(task)
 }
