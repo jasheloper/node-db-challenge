@@ -1,4 +1,4 @@
-# Sprint Challenge: Node DB Sprint
+# Sprint Challenge: Node DB Sprint - Jashele Tillman 👋
 
 ## Description
 
