@@ -1,21 +1,59 @@
+const express = require("express");
 
-const express = require('express');
+const Resource = require("../data/db-config.js");
 
-const db = require('../data/db-config.js');
+const router = express.Router();
 
-const router = express.Router(); 
+// ** A D D ** R E S O U R C E S
+router.post("/", (req, res) => {
+  const resourceData = req.body;
 
-router.get('/', (req, res) => {
-  res.status(200).send('hello from the GET /users endpoint');
+  Resource.addResource(resourceData)
+    .then(newResource => {
+      res.status(201).json(newResource);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message:
+          "An error occurred while trying to add the Resource to the database",
+        error: err
+      });
+    });
 });
 
-router.get('/:id', (req, res) => {
-  res.status(200).send('hello from the GET /users/:id endpoint');
+// ** R E T R I E V E  ** R E S O U R C E S
+
+router.get("/", (req, res) => {
+  Resource.getResources()
+    .then(Resources => {
+      res.json(Resources);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message:
+          "An error occured while trying to get the Resources from the database.",
+        error: err
+      });
+    });
 });
 
-router.post('/', (req, res) => {
-  res.status(200).send('hello from the POST /users endpoint');
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+
+  Resources.getResourceById(id).then(Resource => {
+    if (Resource) {
+      res.json(Resource);
+    } else {
+      res
+        .status(404)
+        .json({
+          message: "Could not find Resource with given id"
+        })
+        .catch(err => {
+          res.status(500).json({ message: "Failed to get Resources" });
+        });
+    }
+  });
 });
 
-
-module.exports = router; 
+module.exports = router;

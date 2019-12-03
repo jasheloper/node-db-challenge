@@ -1,20 +1,59 @@
-const express = require('express');
+const express = require("express");
 
-const db = require('../data/db-config.js');
+const Task = require("../data/db-config.js");
 
-const router = express.Router(); 
+const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.status(200).send('hello from the GET /users endpoint');
+// ** A D D ** T A S K S 
+router.post("/", (req, res) => {
+  const TaskData = req.body;
+
+  Task.addTask(TaskData)
+    .then(newTask => {
+      res.status(201).json(newTask);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message:
+          "An error occurred while trying to add the Task to the database",
+        error: err
+      });
+    });
 });
 
-router.get('/:id', (req, res) => {
-  res.status(200).send('hello from the GET /users/:id endpoint');
+// ** R E T R I E V E  ** T A S K S 
+
+router.get("/", (req, res) => {
+  Task.getTasks()
+    .then(Tasks => {
+      res.json(Tasks);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message:
+          "An error occured while trying to get the Tasks from the database.",
+        error: err
+      });
+    });
 });
 
-router.post('/', (req, res) => {
-  res.status(200).send('hello from the POST /users endpoint');
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+
+  Tasks.getTaskById(id).then(Task => {
+    if (Task) {
+      res.json(Task);
+    } else {
+      res
+        .status(404)
+        .json({
+          message: "Could not find Task with given id"
+        })
+        .catch(err => {
+          res.status(500).json({ message: "Failed to get Tasks" });
+        });
+    }
+  });
 });
 
-
-module.exports = router; 
+module.exports = router;
