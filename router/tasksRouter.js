@@ -1,14 +1,14 @@
 const express = require("express");
 
-const Task = require("../data/db-config.js");
+const Task  = require("../data/models/tasksModel");
 
 const router = express.Router();
 
 // ** A D D ** T A S K S 
 router.post("/", (req, res) => {
-  const TaskData = req.body;
+  const taskData = req.body;
 
-  Task.addTask(TaskData)
+  Task.addTask(taskData)
     .then(newTask => {
       res.status(201).json(newTask);
     })
@@ -23,18 +23,17 @@ router.post("/", (req, res) => {
 
 // ** R E T R I E V E  ** T A S K S 
 
-router.get("/", (req, res) => {
+router.get('/', (req, res) => {
   Task.getTasks()
-    .then(Tasks => {
-      res.json(Tasks);
-    })
-    .catch(err => {
-      res.status(500).json({
-        message:
-          "An error occured while trying to get the Tasks from the database.",
-        error: err
-      });
-    });
+         .then(tasks => {
+             res.json(tasks);
+         })
+         .catch(err => {
+             res.status(500).json({
+                 message: 'An error occurred while trying to get the tasks from the database.',
+                 error: err
+             });
+         });
 });
 
 router.get("/:id", (req, res) => {
