@@ -4,7 +4,21 @@ const Task = require("../data/models/tasksModel");
 
 const router = express.Router();
 
-router.post("/", (req, res) => {});
+router.post("/", (req, res) => {
+  const TaskData = req.body;
+
+  Task.addTask(TaskData)
+    .then(newTask => {
+      res.status(201).json(newTask);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message:
+          "An error occurred while trying to add the Task to the database",
+        error: err
+      });
+    });
+});
 
 router.get("/", (req, res) => {
   Task.getTasks()
