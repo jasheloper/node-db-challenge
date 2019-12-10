@@ -1,4 +1,4 @@
-# Sprint Challenge: Node DB Sprint
+# Sprint Challenge: Node DB Sprint - Jashele Tillman 👋
 
 ## Description
 
@@ -38,13 +38,18 @@ Commit your code regularly and use descriptive messages. This helps both you (in
 
 Demonstrate your understanding of this week's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your project manager.
 
-- [ ] Explain the difference between `Relational Databases` and `SQL`.
+## - [ ] Explain the difference between `Relational Databases` and `SQL`.
+**Relational Database:** A way to store data
+**SQL:** Structured Query Language how we talk to the database.
 
-- [ ] Why do tables need a `primary key`?
+## - [ ] Why do tables need a `primary key`?
+**Primary Key:** Needed as a way to identify each entry in the database uniquely.
 
-- [ ] What is the name given to a table column that references the primary key on another table.
+## - [ ] What is the name given to a table column that references the primary key on another table.
+**Foreign Key**
 
-- [ ] What do we need in order to have a _many to many_ relationship between two tables.
+## - [ ] What do we need in order to have a _many to many_ relationship between two tables.
+**a 3rd intermediary table**
 
 ## Minimum Viable Product
 
